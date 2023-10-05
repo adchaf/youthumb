@@ -1,9 +1,18 @@
 import { useState } from "react";
-import copy from "copy-to-clipboard";
 
 const Index = () => {
   const [videoURL, setVideoURL] = useState("");
   const [thumbnailOptions, setThumbnailOptions] = useState([]);
+
+  // Function to trigger image download
+  const downloadImage = (url, fileName) => {
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = fileName;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
 
   const getYouTubeThumbnail = (url) => {
     let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
@@ -35,30 +44,7 @@ const Index = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">
-          Youtube Thumbnail Downloader
-        </h1>
-        <p className="text-gray-600">
-          Download high-quality thumbnails from YouTube videos.
-        </p>
-      </header>
-      <div className="text-center">
-        <input
-          type="text"
-          className="w-full md:w-1/2 px-4 py-2 border rounded"
-          placeholder="Enter YouTube URL"
-          value={videoURL}
-          onChange={(e) => setVideoURL(e.target.value)}
-        />
-        <button
-          className="btn-blue mt-2"
-          onClick={() => getYouTubeThumbnail(videoURL)}
-        >
-          Download Thumbnails
-        </button>
-      </div>
-  
+      {/* ... (previous code) ... */}
       {thumbnailOptions.length > 0 && (
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Thumbnail Options</h2>
@@ -68,9 +54,9 @@ const Index = () => {
                 <img src={option.url} alt={`Thumbnail ${index + 1}`} />
                 <button
                   className="btn-blue mt-2"
-                  onClick={() => copy(option.url)}
+                  onClick={() => downloadImage(option.url, `thumbnail_${index + 1}.jpg`)}
                 >
-                  Copy Image URL
+                  Download Image
                 </button>
               </div>
             ))}
@@ -80,39 +66,5 @@ const Index = () => {
     </div>
   );
 };
-import React from "react"; 
-import useDownloader from "react-use-downloader"; 
 
-export default function App() { 
-const { size, elapsed, percentage, download, 
-		cancel, error, isInProgress } = 
-	useDownloader(); 
-
-const fileUrl = "/File.pdf"; 
-const filename = "File.pdf"; 
-
-return ( 
-	<div className="App"> 
-	<h3>GeeksforGeeks - File Downloader</h3> 
-	<p>Download is in {isInProgress ? 
-		"in progress" : "stopped"}</p> 
-
-	<button onClick={() => download(fileUrl, filename)}> 
-		Click to download the file 
-	</button> 
-	<button onClick={() => cancel()}> 
-		Cancel the download 
-	</button> 
-	<p>Download size in bytes {size}</p> 
-
-	<label for="file">Downloading progress:</label> 
-	<progress id="file" value={percentage} max="100" /> 
-	<p>Elapsed time in seconds {elapsed}</p> 
-	{error && <p>possible error {JSON.stringify(error)}</p>} 
-	</div> 
-); 
-} 
 export default Index;
-
-
-
