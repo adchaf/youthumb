@@ -41,6 +41,7 @@ const Index = () => {
       setThumbnailOptions([]);
     }
   };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="text-center mb-8">
@@ -66,9 +67,7 @@ const Index = () => {
           Download Thumbnails
         </button>
       </div>
-  return (
-    <div className="container mx-auto px-4 py-8">
-      {/* ... (previous code) ... */}
+
       {thumbnailOptions.length > 0 && (
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Thumbnail Options</h2>
