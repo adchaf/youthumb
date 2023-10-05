@@ -4,11 +4,16 @@ const Index = () => {
   const [videoURL, setVideoURL] = useState("");
   const [thumbnailOptions, setThumbnailOptions] = useState([]);
 
-  const getYouTubeThumbnail = (url) => {
-    // ... Your existing code to fetch thumbnails ...
+   const thumbnailOptions = options.map((option) => ({
+        resolution: option.resolution,
+        url: `${thumbnailBaseUrl}${videoURL}/${option.code}.jpg`,
+      }));
 
-    setThumbnailOptions(thumbnailOptions);
-    setVideoURL("");
+      setThumbnailOptions(thumbnailOptions);
+      setVideoURL("");
+    } else {
+      setThumbnailOptions([]);
+    }
   };
 
   // Function to trigger image download
@@ -21,9 +26,31 @@ const Index = () => {
     document.body.removeChild(link);
   };
 
-  return (
+ return (
     <div className="container mx-auto px-4 py-8">
-      {/* ... Your existing code ... */}
+      <header className="text-center mb-8">
+        <h1 className="text-3xl font-bold mb-2">
+          Youtube Thumbnail Downloader
+        </h1>
+        <p className="text-gray-600">
+          Download high-quality thumbnails from YouTube videos.
+        </p>
+      </header>
+      <div className="text-center">
+        <input
+          type="text"
+          className="w-full md:w-1/2 px-4 py-2 border rounded"
+          placeholder="Enter YouTube URL"
+          value={videoURL}
+          onChange={(e) => setVideoURL(e.target.value)}
+        />
+        <button
+          className="btn-blue mt-2"
+          onClick={() => getYouTubeThumbnail(videoURL)}
+        >
+          Download Thumbnails
+        </button>
+      </div>
 
       {thumbnailOptions.length > 0 && (
         <div className="mt-8">
