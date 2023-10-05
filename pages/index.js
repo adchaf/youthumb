@@ -75,12 +75,13 @@ const Index = () => {
             {thumbnailOptions.map((option, index) => (
               <div key={index} className="thumbnail-option">
                 <img src={option.url} alt={`Thumbnail ${index + 1}`} />
-                <button
+                <a
+                  href={option.url}
+                  download={`thumbnail_${index + 1}.jpg`} // Set the desired file name here
                   className="btn-blue mt-2"
-                  onClick={() => downloadImage(option.url, `thumbnail_${index + 1}.jpg`)}
                 >
                   Download Image
-                </button>
+                </a>
               </div>
             ))}
           </div>
