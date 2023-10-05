@@ -15,8 +15,7 @@ const Index = () => {
       setThumbnailOptions([]);
     }
   };
-
-  // Function to trigger image download
+// Function to trigger image download
   const downloadImage = (url, fileName) => {
     const link = document.createElement("a");
     link.href = url;
@@ -26,7 +25,7 @@ const Index = () => {
     document.body.removeChild(link);
   };
 
- return (
+  return (
     <div className="container mx-auto px-4 py-8">
       <header className="text-center mb-8">
         <h1 className="text-3xl font-bold mb-2">
