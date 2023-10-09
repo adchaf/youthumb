@@ -57,6 +57,8 @@ const Index = () => {
         >
           Download Thumbnails
         </button>
+            <button onClick={downloadImage}>Download Image</button>
+            
       </div>
   
       {thumbnailOptions.length > 0 && (
@@ -72,6 +74,25 @@ const Index = () => {
                 >
                   Copy Image URL
                 </button>
+
+            <button onClick={downloadImage}>Download Image</button>
+
+                    const downloadImage = () => {
+  // Replace 'YOUR_IMAGE_URL' with the actual URL of the image you want to download.
+  const imageUrl = 'YOUR_IMAGE_URL';
+
+  // Create an anchor element to trigger the download.
+  const link = document.createElement('a');
+  link.href = imageUrl;
+  link.download = 'thumbnail.jpg'; // Set the desired file name here.
+
+  // Trigger the download.
+  document.body.appendChild(link);
+  link.click();
+
+  // Clean up the anchor element.
+  document.body.removeChild(link);
+};
               </div>
             ))}
           </div>
