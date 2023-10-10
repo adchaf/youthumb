@@ -40,6 +40,12 @@ const Index = () => {
         <button className="btn-blue mt-2" onClick={() => getYouTubeThumbnail(videoURL)}>
           Download Thumbnails
         </button>
+
+            <button onClick={() => downloadImage(thumbnailOptions.url)}>Download Image
+       </button>
+            
+
+
       </div>
 
       {thumbnailOptions.length > 0 && (
@@ -55,6 +61,25 @@ const Index = () => {
                 >
                   Download Image
                 </button>
+
+
+            <button onClick={downloadImage}>Download Image</button>
+
+                const downloadImage = (imageUrl) => {
+                  // Create an anchor element to trigger the download.
+                  const link = document.createElement('a');
+                  link.href = imageUrl;
+                  link.download = 'thumbnail.jpg'; // Set the desired file name here.
+                
+                  // Trigger the download.
+                  document.body.appendChild(link);
+                  link.click();
+                
+                  // Clean up the anchor element.
+                  document.body.removeChild(link);
+                };
+
+
               </div>
             ))}
           </div>
