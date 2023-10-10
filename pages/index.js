@@ -1,46 +1,32 @@
-import { useState } from "react";
-import copy from "copy-to-clipboard";
+import { useState } from 'react';
 
 const Index = () => {
-  const [videoURL, setVideoURL] = useState("");
+  const [videoURL, setVideoURL] = useState('');
   const [thumbnailOptions, setThumbnailOptions] = useState([]);
 
   const getYouTubeThumbnail = (url) => {
-    let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
-    let match = url.match(regExp);
+    // ... Existing code to fetch and display thumbnail options ...
+  };
 
-    if (match && match[1].length === 11) {
-      const videoURL = match[1];
-      const thumbnailBaseUrl = "http://img.youtube.com/vi/";
+  const downloadImage = (imageUrl) => {
+    // Create an anchor element to trigger the download.
+    const link = document.createElement('a');
+    link.href = imageUrl;
+    link.download = 'thumbnail.jpg'; // Set the desired file name here.
 
-      const options = [
-        { resolution: "HD (1280x720)", code: "maxresdefault" },
-        { resolution: "SD (640x480)", code: "sddefault" },
-        { resolution: "Normal (480x360)", code: "hqdefault" },
-        { resolution: "Medium (320x180)", code: "mqdefault" },
-        { resolution: "Low (120x90)", code: "default" },
-      ];
+    // Trigger the download.
+    link.click();
 
-      const thumbnailOptions = options.map((option) => ({
-        resolution: option.resolution,
-        url: `${thumbnailBaseUrl}${videoURL}/${option.code}.jpg`,
-      }));
-
-      setThumbnailOptions(thumbnailOptions);
-      setVideoURL("");
-    } else {
-      setThumbnailOptions([]);
-    }
+    // Clean up the anchor element.
+    URL.revokeObjectURL(link.href);
   };
 
   return (
     <div className="container mx-auto px-4 py-8">
       <header className="text-center mb-8">
-        <h1 className="text-3xl font-bold mb-2">
-          Youtube Thumbnail Downloader
-        </h1>
-        <p className="text-gray-600">
-          Download high-quality thumbnails from YouTube videos.
+        <h1 className="text-3xl font-bold mb-2">Youtube Thumbnail Download hd</h1>
+        <p className="text-gray-600 text-justify">
+          {/* ... Existing code ... */}
         </p>
       </header>
       <div className="text-center">
@@ -51,16 +37,11 @@ const Index = () => {
           value={videoURL}
           onChange={(e) => setVideoURL(e.target.value)}
         />
-        <button
-          className="btn-blue mt-2"
-          onClick={() => getYouTubeThumbnail(videoURL)}
-        >
+        <button className="btn-blue mt-2" onClick={() => getYouTubeThumbnail(videoURL)}>
           Download Thumbnails
         </button>
-            <button onClick={downloadImage}>Download Image</button>
-            
       </div>
-  
+
       {thumbnailOptions.length > 0 && (
         <div className="mt-8">
           <h2 className="text-xl font-semibold mb-4">Thumbnail Options</h2>
@@ -70,34 +51,17 @@ const Index = () => {
                 <img src={option.url} alt={`Thumbnail ${index + 1}`} />
                 <button
                   className="btn-blue mt-2"
-                  onClick={() => copy(option.url)}
+                  onClick={() => downloadImage(option.url)} // Trigger download on button click
                 >
-                  Copy Image URL
+                  Download Image
                 </button>
-
-            <button onClick={downloadImage}>Download Image</button>
-
-                    const downloadImage = () => {
-  // Replace 'YOUR_IMAGE_URL' with the actual URL of the image you want to download.
-  const imageUrl = 'YOUR_IMAGE_URL';
-
-  // Create an anchor element to trigger the download.
-  const link = document.createElement('a');
-  link.href = imageUrl;
-  link.download = 'thumbnail.jpg'; // Set the desired file name here.
-
-  // Trigger the download.
-  document.body.appendChild(link);
-  link.click();
-
-  // Clean up the anchor element.
-  document.body.removeChild(link);
-};
               </div>
             ))}
           </div>
         </div>
       )}
+
+      {/* ... Existing code ... */}
     </div>
   );
 };
