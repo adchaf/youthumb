@@ -64,22 +64,6 @@ const Index = () => {
 
 
             <button onClick={downloadImage}>Download Image</button>
-
-                const downloadImage = (imageUrl) => {
-                  // Create an anchor element to trigger the download.
-                  const link = document.createElement('a');
-                  link.href = imageUrl;
-                  link.download = 'thumbnail.jpg'; // Set the desired file name here.
-                
-                  // Trigger the download.
-                  document.body.appendChild(link);
-                  link.click();
-                
-                  // Clean up the anchor element.
-                  document.body.removeChild(link);
-                };
-
-
               </div>
             ))}
           </div>
