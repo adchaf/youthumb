@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL
+const DOWNLOAD_ENDPOINT = "/api/image"
 
 const makeGetYouTubeThumbnail = (setThumbnailOptions, setVideoURL) => (url) => {
   let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
@@ -31,7 +31,7 @@ const makeGetYouTubeThumbnail = (setThumbnailOptions, setVideoURL) => (url) => {
 };
 
 const downloadImage = (url, name) => {
-  const imageDlUrl = BACKEND_URL+"/image?url="+url
+  const imageDlUrl = DOWNLOAD_ENDPOINT+"?url="+url
   console.log(imageDlUrl)
   fetch(imageDlUrl).then(resp => {
 return resp.blob()
