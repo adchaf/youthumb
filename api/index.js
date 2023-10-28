@@ -4,15 +4,14 @@ const { Readable } = require('stream');
 const app = express();
 const cors = require('cors'); // Import the cors module
 
-const port = 3004;
-
 app.use(cors())
 
-app.get('/healthcheck', (req, res) => {
+app.get('/api/healthcheck', (req, res) => {
   res.status(200).json({ message: 'Server is running' });
+  res.end("[]")
 });
 
-app.get('/image', (req, res) => {
+app.get('/api/image', (req, res) => {
   const imageUrl = req.query.url;
 
   if (!imageUrl) {
