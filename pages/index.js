@@ -78,8 +78,6 @@ const Index = () => {
           Download Thumbnails
         </button>
 
-            <button onClick={() => downloadImage(thumbnailOptions.url)}>Download Image
-       </button>
             
 
 
