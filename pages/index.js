@@ -1,25 +1,62 @@
 import { useState } from 'react';
 
+const BACKEND_URL=process.env.NEXT_PUBLIC_BACKEND_URL
+
+const makeGetYouTubeThumbnail = (setThumbnailOptions, setVideoURL) => (url) => {
+  let regExp = /.*(?:youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=)([^#\&\?]*).*/;
+  let match = url.match(regExp);
+
+  if (match && match[1].length === 11) {
+    const videoURL = match[1];
+    const thumbnailBaseUrl = "http://img.youtube.com/vi/";
+
+    const options = [
+      { resolution: "HD (1280x720)", code: "maxresdefault" },
+      { resolution: "SD (640x480)", code: "sddefault" },
+      { resolution: "Normal (480x360)", code: "hqdefault" },
+      { resolution: "Medium (320x180)", code: "mqdefault" },
+      { resolution: "Low (120x90)", code: "default" },
+    ];
+
+    const thumbnailOptions = options.map((option) => ({
+      resolution: option.resolution,
+      url: `${thumbnailBaseUrl}${videoURL}/${option.code}.jpg`,
+    }));
+
+    setThumbnailOptions(thumbnailOptions);
+    setVideoURL("");
+  } else {
+    setThumbnailOptions([]);
+  }
+};
+
+const downloadImage = (url, name) => {
+  const imageDlUrl = BACKEND_URL+"/image?url="+url
+  console.log(imageDlUrl)
+  fetch(imageDlUrl).then(resp => {
+return resp.blob()
+    })
+        .then(blob => {
+          console.log(blob)
+            const url = window.URL.createObjectURL(blob);
+          console.log(url)
+            const a = document.createElement('a');
+            a.style.display = 'none';
+            a.href = url;
+            // the filename you want
+            a.download = name+".jpg";
+            document.body.appendChild(a);
+            a.click();
+            window.URL.revokeObjectURL(url);
+        })
+        .catch(() => alert('An error sorry'));
+}
+
 const Index = () => {
   const [videoURL, setVideoURL] = useState('');
   const [thumbnailOptions, setThumbnailOptions] = useState([]);
 
-  const getYouTubeThumbnail = (url) => {
-    // ... Existing code to fetch and display thumbnail options ...
-  };
-
-  const downloadImage = (imageUrl) => {
-    // Create an anchor element to trigger the download.
-    const link = document.createElement('a');
-    link.href = imageUrl;
-    link.download = 'thumbnail.jpg'; // Set the desired file name here.
-
-    // Trigger the download.
-    link.click();
-
-    // Clean up the anchor element.
-    URL.revokeObjectURL(link.href);
-  };
+  const getYouTubeThumbnail = makeGetYouTubeThumbnail(setThumbnailOptions, setVideoURL);
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -57,20 +94,15 @@ const Index = () => {
                 <img src={option.url} alt={`Thumbnail ${index + 1}`} />
                 <button
                   className="btn-blue mt-2"
-                  onClick={() => downloadImage(option.url)} // Trigger download on button click
+                  onClick={() => downloadImage(option.url,option.code)} // Trigger download on button click
                 >
                   Download Image
                 </button>
-
-
-            <button onClick={downloadImage}>Download Image</button>
               </div>
             ))}
           </div>
         </div>
       )}
-
-      {/* ... Existing code ... */}
     </div>
   );
 };
